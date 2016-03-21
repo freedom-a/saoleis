@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery1-12-1.js"></script>
+	<style>
+	.sence{
+		width:600px;
+		height:600px;
+		border:1px solid white;
+		margin:0 auto;
+	}
+	.block{
+		width:48px;
+		height:48px;
+		border:1px solid #827717;
+		float:left;
+	}
+	.red{
+		background:#00bfa5;
+	}
+	.one{
+		background:#ff5252;
+	}
+	.two{
+		background:#ff4081;
+	}
+	.three{
+		background:#e040fb;
+	}
+	.four{
+		background:#1976d2;
+	}
+	.five{
+		background:#00e5ff;
+	}
+	.six{
+		background:#689f38;
+	}
+	.seven{
+		background:#fbc02d;
+	}
+	.scale{
+		animation:fangdasuoxiao .6s ease;
+	}
+	@keyframes fangdasuoxiao{
+		0%,100%{
+			transform:scale(1,1);
+		}
+		80%{
+			transform:scale(1.2,1.2);
+		}
+		90%{
+			transform:scale(0.2,0.2);
+		}
+	}
+	</style>
+</head>
+<body>
+	<div class="sence">
+	</div>
+</body>
+<script>
+	var row=12;
+	var h='';
+	var color=['one','two','three','four','five','six','seven'];
+	for(var i=0;i<row*row;i++){
+			h+='<div></div>';
+	}
+	$('.sence')
+	.html(h)
+	.find('div')
+	.addClass('block')
+	.addClass(function(i){
+		return color[i%7];
+	})
+	.each(function(i){
+		if(Math.random()>0.8){
+			$(this).data('islei',true);
+			//$(this).text('有雷')
+		}
+		$(this).data('index',i)
+	})
+	/*.attr('islei',function(){
+		if(Math.random()>0.5){
+			return true;
+		}
+	})*/
+	.click(function(){
+		if($(this).data('islei')){
+			alert('bow!!');
+			$('.sence').find('div')
+			/*.removeClass(function(i,old){
+				if($(this).data('islei')){
+					var temp=old.split(' ');
+					return temp[temp.length-1];
+				}
+			})*/
+			.removeClass()
+			.addClass('block')
+			.addClass(function(){
+				if($(this).data('islei')){
+					return 'red '+'scale';
+				}
+			})
+			.css('animation-delay',function(){
+				if($(this).data('islei')){
+					return 	Math.random()*1.5.toFixed(2)+'s';
+				}
+			})
+		}else{
+			var shuzi=0;
+			var pos=$(this).data('index');
+			if($('.sence div').eq(pos+20).data('islei')){shuzi++};
+			if($('.sence div').eq(pos-20).data('islei')){shuzi++};
+			if($('.sence div').eq(pos+1).data('islei')){shuzi++};
+			if($('.sence div').eq(pos-1).data('islei')){shuzi++};
+			if($('.sence div').eq(pos+19).data('islei')){shuzi++};
+			if($('.sence div').eq(pos-19).data('islei')){shuzi++};
+			if($('.sence div').eq(pos+21).data('islei')){shuzi++};
+			if($('.sence div').eq(pos-21).data('islei')){shuzi++};
+			$(this).text(shuzi);
+		}
+	})
+</script>
+</html>
